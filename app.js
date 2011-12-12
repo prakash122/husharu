@@ -92,7 +92,7 @@ app.get('/comment', function(req, renderer){
   }
 
   var products = [];
-  db.view('products/all', function (err, res) {
+  db.view('all/products', function (err, res) {
     if (err) {
       console.log(err);
       return renderer.render('500.jade', {error: err, title: '500 Error'});

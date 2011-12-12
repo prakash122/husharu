@@ -22,15 +22,15 @@ auto=`curl -X POST http://$db_user:$db_pass@$db_host:$db_port/husharu_db -H "Con
 sobha=`curl -X POST http://$db_user:$db_pass@$db_host:$db_port/husharu_db -H "Content-type: application/json" -d "{\"level\": \"product\", \"display_name\": \"Sobha Forest View\", \"url\": \"http://www.sobhadevelopers.com/projects/forest-view/index.html\", \"image\": \"http://www.sobhadevelopers.com/projects/forest-view/images/forest-view_elevation.jpg\", \"category\": \"$realestate\"}" | grep -Po '"id":.*?",' | perl -pe 's/"id"://; s/^"//; s/",$//'`
 
 # Create a comment
-curl -X POST http://$db_user:$db_pass@$db_host:$db_port/husharu_db -H 'Content-type: application/json' -d "{\"level\": \"comment\", \"parent_id\": \"\", \"product_id\": \"$sobha\", \"posted_by\": \"avenger_ppc4@yahoo.com\", \"created_at\": \"1322550106000\", \"comment\": \"This project is yet to start.\" }"
+curl -X POST http://$db_user:$db_pass@$db_host:$db_port/husharu_db -H 'Content-type: application/json' -d "{\"level\": \"comment\", \"parent_id\": \"\", \"product_id\": \"$sobha\", \"posted_by\": \"avenger_ppc4@yahoo.com\", \"created_at\": 1322551116000, \"comment\": \"This project is yet to start.\" }"
 
 # create another comment
-curl -X POST http://$db_user:$db_pass@$db_host:$db_port/husharu_db -H 'Content-type: application/json' -d "{\"level\": \"comment\", \"parent_id\": \"\", \"product_id\": \"$sobha\", \"posted_by\": \"invalid@example.com\", \"created_at\": \"1322551106000\", \"comment\": \"This is another comment about Sobha forest view.\" }"
+curl -X POST http://$db_user:$db_pass@$db_host:$db_port/husharu_db -H 'Content-type: application/json' -d "{\"level\": \"comment\", \"parent_id\": \"\", \"product_id\": \"$sobha\", \"posted_by\": \"invalid@example.com\", \"created_at\": 1322551126000, \"comment\": \"This is another comment about Sobha forest view.\" }"
 
 bsnl=`curl -X POST http://$db_user:$db_pass@$db_host:$db_port/husharu_db -H "Content-type: application/json" -d "{\"level\": \"product\", \"display_name\": \"BSNL\", \"url\": \"http://www.bsnl.co.in/\", \"image\": \"http://www.topnews.in/files/BSNL_6.jpg\", \"category\": \"$communication\"}" | grep -Po '"id":.*?",' | perl -pe 's/"id"://; s/^"//; s/",$//'`
 
-curl -X POST http://$db_user:$db_pass@$db_host:$db_port/husharu_db -H 'Content-type: application/json' -d "{\"level\": \"comment\", \"parent_id\": \"\", \"product_id\": \"$bsnl\", \"posted_by\": \"invalid@example.com\", \"created_at\": \"1322531106000\", \"comment\": \"Do the BSNL guys actually repair anything?\" }"
-curl -X POST http://$db_user:$db_pass@$db_host:$db_port/husharu_db -H 'Content-type: application/json' -d "{\"level\": \"comment\", \"parent_id\": \"\", \"product_id\": \"$bsnl\", \"posted_by\": \"invalid@example.com\", \"created_at\": \"1322537306000\", \"comment\": \"BSNL guys fixed my modem yesterday.  It is not working again!\" }"
+curl -X POST http://$db_user:$db_pass@$db_host:$db_port/husharu_db -H 'Content-type: application/json' -d "{\"level\": \"comment\", \"parent_id\": \"\", \"product_id\": \"$bsnl\", \"posted_by\": \"invalid@example.com\", \"created_at\": 1322551136000, \"comment\": \"Do the BSNL guys actually repair anything?\" }"
+curl -X POST http://$db_user:$db_pass@$db_host:$db_port/husharu_db -H 'Content-type: application/json' -d "{\"level\": \"comment\", \"parent_id\": \"\", \"product_id\": \"$bsnl\", \"posted_by\": \"invalid@example.com\", \"created_at\": 1322551146000, \"comment\": \"BSNL guys fixed my modem yesterday.  It is not working again!\" }"
 
 # create some products
 curl -X POST http://$db_user:$db_pass@$db_host:$db_port/husharu_db -H "Content-type: application/json" -d "{\"level\": \"product\", \"display_name\": \"TataSky\", \"url\": \"http://www.tatasky.com/\", \"image\": \"http://www.tatasky.com/images/tata-sky-logo.gif\", \"category\": \"$communication\"}"
