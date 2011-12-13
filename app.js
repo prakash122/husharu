@@ -45,30 +45,29 @@ app.configure('production', function(){
 // TODO: move to a separate file
 
 app.get('/', function(req, renderer, next){
-  var comments = [];
-  db.view('all/comments_products', function (err, res) {
+  var comments = [],
+      products = [];
+
+  db.view('all/comments', function (err, res) {
     if (err) {
       console.log(err);
       return renderer.render('500.jade', {error: err, title: '500 Error'});
     }
-    var end = getCommentCount(res) - 1,
-        i = 0,
-        products = getProducts(res);
 
     res.forEach(function (row) {
-      if (row.level === 'comment') {
-        row.display_date = util.prettyDate(+row.created_at);
-        db.get(row.product_id, function(err, doc) {
-          row.product_name = doc.display_name;
-          row.gravatar = hex_md5(row.posted_by);
-          comments.push(row);
-          if (i === end) {
-            renderHome(renderer, comments, products);
-          } else {
-            i++;
-          }
-        });
-      }
+      row.display_date = util.prettyDate(+row.created_at);
+      db.get(row.product_id, function(err, doc) {
+        row.product_name = doc.display_name;
+        row.gravatar = hex_md5(row.posted_by);
+        comments.push(row);
+      });
+    });
+
+    db.view('all/products', function (err, res) {
+      res.forEach(function (row) {
+        products.push(row);
+      });
+      renderHome(renderer, comments, products);
     });
   });
 });
@@ -127,7 +126,7 @@ app.get('/comment/:id', function(req, renderer, next) {
 
 app.get('/product/:id', function(req, renderer, next) {
   var id = req.params.id;
-  db.view('all/comments_for_product', {key: id}, function(err, res) {
+  db.view('all/comments_for_product', {startkey: id, endkey: [id, {}]}, function(err, res) {
     if (err) {
       console.log(err);
       return renderer.render('500.jade', {error: err, title: '500 Error'});
@@ -146,7 +145,7 @@ app.get('/product/:id', function(req, renderer, next) {
       renderer.render('product_detail', {
         title: 'Comments about ' + doc.display_name,
         locals: {
-          comments: comments,
+          comments: comments.reverse(), // note reverse - because we used push to put elements in
           product: doc
         }
       });
@@ -188,33 +187,14 @@ function renderHome(renderer, comments, products) {
   renderer.render('index', {
     title: 'Welcome',
     locals: {
-      comments: comments,
-      products: products 
+      /* 
+        note reverse - because we used push to add entries.
+        I think I must have botched up performance big time with this
+      */
+      comments: comments.reverse(),
+      products: products
     }
   });
-}
-
-function getCommentCount(res) {
-  var i = 0;
-
-  res.forEach(function (row) {
-    if (row.level === 'comment') {
-      i++;
-    }
-  });
-
-  return i;
-}
-
-function getProducts(res) {
-  var products = [];
-  res.forEach(function (row) {
-    if (row.level === 'product') {
-      products.push(row);
-    }
-  });
-
-  return products;
 }
 
 app.listen(process.env['husharu_port'] || 3000);
