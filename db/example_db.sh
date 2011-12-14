@@ -22,10 +22,10 @@ auto=`curl -X POST http://$db_user:$db_pass@$db_host:$db_port/husharu_db -H "Con
 sobha=`curl -X POST http://$db_user:$db_pass@$db_host:$db_port/husharu_db -H "Content-type: application/json" -d "{\"level\": \"product\", \"display_name\": \"Sobha Forest View\", \"url\": \"http://www.sobhadevelopers.com/projects/forest-view/index.html\", \"image\": \"http://www.sobhadevelopers.com/projects/forest-view/images/forest-view_elevation.jpg\", \"category\": \"$realestate\"}" | grep -Po '"id":.*?",' | perl -pe 's/"id"://; s/^"//; s/",$//'`
 
 # Create a comment
-curl -X POST http://$db_user:$db_pass@$db_host:$db_port/husharu_db -H 'Content-type: application/json' -d "{\"level\": \"comment\", \"parent_id\": \"\", \"product_id\": \"$sobha\", \"posted_by\": \"avenger_ppc4@yahoo.com\", \"created_at\": 1322551116000, \"comment\": \"This project is yet to start.\" }"
+curl -X POST http://$db_user:$db_pass@$db_host:$db_port/husharu_db -H 'Content-type: application/json' -d "{\"level\": \"comment\", \"parent_id\": \"\", \"product_id\": \"$sobha\", \"posted_by\": \"avenger_ppc4@yahoo.com\", \"created_at\": 1323832016002, \"comment\": \"This project is yet to start.\" }"
 
 # create another comment
-curl -X POST http://$db_user:$db_pass@$db_host:$db_port/husharu_db -H 'Content-type: application/json' -d "{\"level\": \"comment\", \"parent_id\": \"\", \"product_id\": \"$sobha\", \"posted_by\": \"invalid@example.com\", \"created_at\": 1322551126000, \"comment\": \"This is another comment about Sobha forest view.\" }"
+curl -X POST http://$db_user:$db_pass@$db_host:$db_port/husharu_db -H 'Content-type: application/json' -d "{\"level\": \"comment\", \"parent_id\": \"\", \"product_id\": \"$sobha\", \"posted_by\": \"invalid@example.com\", \"created_at\": 1323732016002, \"comment\": \"This is another comment about Sobha forest view.\" }"
 
 bsnl=`curl -X POST http://$db_user:$db_pass@$db_host:$db_port/husharu_db -H "Content-type: application/json" -d "{\"level\": \"product\", \"display_name\": \"BSNL\", \"url\": \"http://www.bsnl.co.in/\", \"image\": \"http://www.topnews.in/files/BSNL_6.jpg\", \"category\": \"$communication\"}" | grep -Po '"id":.*?",' | perl -pe 's/"id"://; s/^"//; s/",$//'`
 
