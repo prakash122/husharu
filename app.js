@@ -115,12 +115,17 @@ app.get('/comment/:id', function(req, renderer, next) {
       console.log(err);
       return renderer.render('500.jade', {error: err, title: '500 Error'});
     }
-    renderer.render('comment_detail', {
-      title: 'Comment page',
-      locals: {
-        comment: doc 
-      }
-    });
+    doc.display_date = util.prettyDate(+doc.created_at);
+    doc.gravatar = hex_md5(doc.posted_by);
+		db.get(doc.product_id, function(err, product) {
+			doc.product_name = product.display_name;
+			renderer.render('comment_detail', {
+				title: 'Comment page',
+				locals: {
+					comment: doc 
+				}
+			});
+		});
   });
 });
 

@@ -1,10 +1,8 @@
 h1=title
 
-p #{comment.comment}
-p.attribution 
-  | posted on 
-  span.date #{comment.display_date}
-  |  by
-  span.user #{comment.posted_by}
-  |  about
-  span.product #{comment.product_name}.
+div(style="background-image: url('http://gravatar.com/avatar/#{comment.gravatar}?r=g&s=60');", class='comment')
+  p.content #{comment.comment}
+  p.attribution 
+    span.date #{comment.display_date}
+    |  about
+    span.product #{comment.product_name}.
